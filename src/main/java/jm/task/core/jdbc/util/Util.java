@@ -14,12 +14,15 @@ public class Util {
 
     public static Connection getConnection() {
         Connection connection = null;
+
         try {
             connection = DriverManager.getConnection(connectionString, login, password);
             Class.forName(driverName);
+            connection.setAutoCommit(false);
             if (!connection.isClosed()) {
                 System.out.println("Соединение установленно");
             }
+
         } catch (ClassNotFoundException | SQLException e) {
             System.err.println("Соединение не установленно");
             e.printStackTrace();

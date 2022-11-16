@@ -21,8 +21,14 @@ public class UserDaoJDBCImpl implements UserDao {
         try (Statement stat = connection.createStatement()) {
             stat.executeUpdate(sql);
             System.out.println("Таблица создана");
+            connection.commit();
 
         } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             e.printStackTrace();
         }
     }
@@ -33,8 +39,14 @@ public class UserDaoJDBCImpl implements UserDao {
         try (Statement stat = connection.createStatement()) {
             stat.executeUpdate(sql);
             System.out.println("Таблица удалена");
+            connection.commit();
 
         } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             e.printStackTrace();
         }
     }
@@ -48,8 +60,14 @@ public class UserDaoJDBCImpl implements UserDao {
             preStat.setLong(3, age);
             preStat.executeUpdate();
             System.out.println("Пользователь " + name + " " + lastName + " " + age + " Добавлен в базу данных");
+            connection.commit();
 
         } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             e.printStackTrace();
         }
     }
@@ -61,8 +79,14 @@ public class UserDaoJDBCImpl implements UserDao {
             preStat.setLong(1, id);
             preStat.executeUpdate();
             System.out.println("Пользователь удален");
+            connection.commit();
 
         } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             e.printStackTrace();
         }
     }
@@ -95,8 +119,8 @@ public class UserDaoJDBCImpl implements UserDao {
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.executeUpdate();
-
             System.out.println("Таблица очищена");
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
